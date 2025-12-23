@@ -1,0 +1,664 @@
+<html>
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Google Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      color: #667eea;
+      margin-bottom: 8px;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 12px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #555;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    select, input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    select:hover, input:hover, textarea:hover {
+      border-color: #667eea;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .param-group {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border-left: 4px solid #667eea;
+    }
+
+    .param-input {
+      margin-bottom: 8px;
+    }
+
+    .param-input:last-child {
+      margin-bottom: 0;
+    }
+
+    .add-param-btn {
+      background: #f0f0f0;
+      border: 2px dashed #ccc;
+      color: #666;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      width: 100%;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .add-param-btn:hover {
+      background: #667eea;
+      border-color: #667eea;
+      color: white;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .status {
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 16px;
+      font-size: 13px;
+      display: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border-left: 4px solid #28a745;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border-left: 4px solid #dc3545;
+    }
+
+    .status.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border-left: 4px solid #17a2b8;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .template-info {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: #856404;
+      display: none;
+    }
+
+    .help-text {
+      font-size: 11px;
+      color: #999;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .badge-success {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .remove-param {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      margin-top: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .remove-param:hover {
+      background: #c82333;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+      margin: 24px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>
+      <span>📱</span> WhatsApp Broadcast
+    </h2>
+    <div class="subtitle">Send template messages to your contacts</div>
+
+    <!-- Template Selection -->
+    <div class="section">
+      <div class="section-title">
+        <span>📋</span> Select Template
+      </div>
+      <div class="input-group">
+        <label for="template-select">Template</label>
+        <select id="template-select" onchange="onTemplateChange()">
+          <option value="">Loading templates...</option>
+        </select>
+        <div class="help-text">Choose an approved message template</div>
+      </div>
+      <div id="template-info" class="template-info"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Header Parameters -->
+    <div class="section" id="header-section" style="display: none;">
+      <div class="section-title">
+        <span>🖼️</span> Header Parameters
+      </div>
+      <div id="header-params"></div>
+    </div>
+
+    <!-- Body Parameters -->
+    <div class="section" id="body-section" style="display: none;">
+      <div class="section-title">
+        <span>📝</span> Body Parameters
+      </div>
+      <div id="body-params"></div>
+    </div>
+
+    <!-- Button Parameters -->
+    <div class="section" id="button-section" style="display: none;">
+      <div class="section-title">
+        <span>🔘</span> Button Parameters
+      </div>
+      <div id="button-params"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Test Message -->
+    <div class="section">
+      <div class="section-title">
+        <span>🧪</span> Test Message
+      </div>
+      <div class="input-group">
+        <label for="test-phone">Test Phone Number</label>
+        <input type="text" id="test-phone" placeholder="e.g., 919876543210">
+        <div class="help-text">Include country code without + sign</div>
+      </div>
+      <button class="btn btn-secondary" onclick="sendTest()">
+        <span>Send Test Message</span>
+      </button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Broadcast Actions -->
+    <div class="section">
+      <div class="section-title">
+        <span>🚀</span> Broadcast Actions
+      </div>
+      <button class="btn btn-primary" onclick="startBroadcast()">
+        <span>Start Broadcast</span>
+      </button>
+      <button class="btn btn-success" onclick="refreshTemplates()">
+        <span>Refresh Templates</span>
+      </button>
+    </div>
+
+    <!-- Status Messages -->
+    <div id="status" class="status"></div>
+  </div>
+
+  <script>
+    let templates = [];
+    let currentTemplate = null;
+
+    // Load templates on page load
+    window.onload = function() {
+      loadTemplates();
+    };
+
+    function loadTemplates() {
+      showStatus('Loading templates...', 'info');
+      google.script.run
+        .withSuccessHandler(onTemplatesLoaded)
+        .withFailureHandler(onError)
+        .getTemplates();
+    }
+
+    function onTemplatesLoaded(data) {
+      templates = data;
+      const select = document.getElementById('template-select');
+      select.innerHTML = '<option value="">-- Select a template --</option>';
+      
+      templates.forEach(template => {
+        const option = document.createElement('option');
+        option.value = template.name;
+        option.textContent = `${template.name} (${template.language})`;
+        select.appendChild(option);
+      });
+      
+      hideStatus();
+    }
+
+    function onTemplateChange() {
+      const select = document.getElementById('template-select');
+      const templateName = select.value;
+      
+      if (!templateName) {
+        currentTemplate = null;
+        document.getElementById('header-section').style.display = 'none';
+        document.getElementById('body-section').style.display = 'none';
+        document.getElementById('button-section').style.display = 'none';
+        document.getElementById('template-info').style.display = 'none';
+        return;
+      }
+      
+      currentTemplate = templates.find(t => t.name === templateName);
+      
+      if (!currentTemplate) return;
+      
+      // Show template info
+      const infoDiv = document.getElementById('template-info');
+      infoDiv.innerHTML = `
+        <strong>Template:</strong> ${currentTemplate.name}<br>
+        <strong>Category:</strong> ${currentTemplate.category}<br>
+        <strong>Language:</strong> ${currentTemplate.language}<br>
+        <strong>Status:</strong> <span class="badge badge-success">${currentTemplate.status}</span>
+      `;
+      infoDiv.style.display = 'block';
+      
+      // Parse components and create parameter inputs
+      renderParameters();
+    }
+
+    function renderParameters() {
+      if (!currentTemplate || !currentTemplate.components) return;
+      
+      const components = currentTemplate.components;
+      
+      // Clear all parameter sections
+      document.getElementById('header-params').innerHTML = '';
+      document.getElementById('body-params').innerHTML = '';
+      document.getElementById('button-params').innerHTML = '';
+      
+      document.getElementById('header-section').style.display = 'none';
+      document.getElementById('body-section').style.display = 'none';
+      document.getElementById('button-section').style.display = 'none';
+      
+      components.forEach(component => {
+        if (component.type === 'HEADER' && component.format !== 'TEXT') {
+          // Header with media
+          document.getElementById('header-section').style.display = 'block';
+          const headerDiv = document.getElementById('header-params');
+          
+          const paramDiv = document.createElement('div');
+          paramDiv.className = 'param-group';
+          paramDiv.innerHTML = `
+            <label>Header ${component.format}</label>
+            <input type="text" class="header-param" placeholder="Enter ${component.format.toLowerCase()} URL" data-type="${component.format.toLowerCase()}">
+            <div class="help-text">Provide a public URL for the ${component.format.toLowerCase()}</div>
+          `;
+          headerDiv.appendChild(paramDiv);
+        }
+        
+        if (component.type === 'BODY' && component.text) {
+          // Extract variables from body text
+          const variables = component.text.match(/\{\{(\d+)\}\}/g);
+          
+          if (variables && variables.length > 0) {
+            document.getElementById('body-section').style.display = 'block';
+            const bodyDiv = document.getElementById('body-params');
+            
+            variables.forEach((variable, index) => {
+              const paramDiv = document.createElement('div');
+              paramDiv.className = 'param-group';
+              paramDiv.innerHTML = `
+                <label>Variable ${index + 1}</label>
+                <input type="text" class="body-param" placeholder="Enter value for ${variable}">
+                <div class="help-text">This will replace ${variable} in the message</div>
+              `;
+              bodyDiv.appendChild(paramDiv);
+            });
+          }
+        }
+        
+        if (component.type === 'BUTTONS') {
+          component.buttons.forEach((button, index) => {
+            if (button.type === 'URL' && button.url && button.url.includes('{{1}}')) {
+              document.getElementById('button-section').style.display = 'block';
+              const buttonDiv = document.getElementById('button-params');
+              
+              const paramDiv = document.createElement('div');
+              paramDiv.className = 'param-group';
+              paramDiv.innerHTML = `
+                <label>Button URL Parameter</label>
+                <input type="text" class="button-param" placeholder="Enter dynamic URL part">
+                <div class="help-text">This will be appended to: ${button.url.replace('{{1}}', '')}</div>
+              `;
+              buttonDiv.appendChild(paramDiv);
+            }
+          });
+        }
+      });
+    }
+
+    function getParameters() {
+      const headerParams = [];
+      const bodyParams = [];
+      const buttonParams = [];
+      
+      // Get header parameters
+      document.querySelectorAll('.header-param').forEach(input => {
+        if (input.value.trim()) {
+          headerParams.push({
+            type: input.dataset.type,
+            value: input.value.trim()
+          });
+        }
+      });
+      
+      // Get body parameters
+      document.querySelectorAll('.body-param').forEach(input => {
+        if (input.value.trim()) {
+          bodyParams.push(input.value.trim());
+        }
+      });
+      
+      // Get button parameters
+      document.querySelectorAll('.button-param').forEach(input => {
+        if (input.value.trim()) {
+          buttonParams.push(input.value.trim());
+        }
+      });
+      
+      return { headerParams, bodyParams, buttonParams };
+    }
+
+    function sendTest() {
+      const templateName = document.getElementById('template-select').value;
+      const testPhone = document.getElementById('test-phone').value.trim();
+      
+      if (!templateName) {
+        showStatus('Please select a template', 'error');
+        return;
+      }
+      
+      if (!testPhone) {
+        showStatus('Please enter a test phone number', 'error');
+        return;
+      }
+      
+      const { headerParams, bodyParams, buttonParams } = getParameters();
+      
+      showStatus('Sending test message...', 'info');
+      
+      google.script.run
+        .withSuccessHandler(onTestSuccess)
+        .withFailureHandler(onError)
+        .sendTestMessage(testPhone, templateName, headerParams, bodyParams, buttonParams);
+    }
+
+    function onTestSuccess(result) {
+      if (result.success) {
+        showStatus(`✅ Test message sent successfully! Message ID: ${result.messageId}`, 'success');
+      } else {
+        showStatus(`❌ Failed to send test message: ${result.error}`, 'error');
+      }
+    }
+
+    function startBroadcast() {
+      const templateName = document.getElementById('template-select').value;
+      
+      if (!templateName) {
+        showStatus('Please select a template', 'error');
+        return;
+      }
+      
+      if (!confirm('Are you sure you want to start the broadcast? This will send messages to all phone numbers in the Broadcast sheet.')) {
+        return;
+      }
+      
+      const { headerParams, bodyParams, buttonParams } = getParameters();
+      
+      showStatus('Starting broadcast... This may take a while.', 'info');
+      
+      google.script.run
+        .withSuccessHandler(onBroadcastSuccess)
+        .withFailureHandler(onError)
+        .startBroadcast(templateName, headerParams, bodyParams, buttonParams);
+    }
+
+    function onBroadcastSuccess(result) {
+      if (result.success) {
+        showStatus(`✅ Broadcast completed! Sent: ${result.sent}, Failed: ${result.failed}, Total: ${result.total}`, 'success');
+      } else {
+        showStatus(`❌ Broadcast failed: ${result.error}`, 'error');
+      }
+    }
+
+    function refreshTemplates() {
+      showStatus('Refreshing templates...', 'info');
+      google.script.run
+        .withSuccessHandler(function() {
+          loadTemplates();
+          showStatus('✅ Templates refreshed successfully!', 'success');
+        })
+        .withFailureHandler(onError)
+        .fetchAndStoreTemplates();
+    }
+
+    function showStatus(message, type) {
+      const statusDiv = document.getElementById('status');
+      statusDiv.className = `status ${type}`;
+      statusDiv.innerHTML = message;
+      statusDiv.style.display = 'block';
+    }
+
+    function hideStatus() {
+      document.getElementById('status').style.display = 'none';
+    }
+
+    function onError(error) {
+      showStatus(`❌ Error: ${error.message || error}`, 'error');
+    }
+  </script>
+</body>
+</html>
